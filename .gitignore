@@ -1,0 +1,12 @@
+AppPackages
+BundleArtifacts
+*.log
+bin
+obj
+Release
+Debug
+.vs
+packages
+*.suo
+*.user
+*.aps
