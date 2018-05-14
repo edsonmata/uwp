@@ -1,0 +1,68 @@
+﻿<Page
+    x:Class="MyTrello.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyTrello.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:models="using:MyTrello.Models"
+    xmlns:prism="using:Prism.Windows.Mvvm"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Page.Resources>
+        <DataTemplate x:Key="CardListTemplate" x:DataType="models:CardsList">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Margin="8,0,0,0" Text="{x:Bind Title}" HorizontalAlignment="Left" />
+                <ListView ItemsSource="{x:Bind Cards}"
+                    ItemTemplate="{StaticResource CardTemplate}"
+                    SelectionMode="None"
+                    CanDragItems="True"
+                    DragStarting="SourceGrid_DragStarting"
+                          />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="CardTemplate" x:DataType="models:Card">
+            <StackPanel Orientation="Vertical">
+                <TextBlock x:Name="TargetTextBox"                     
+                           AllowDrop="True"
+                        Drop="ListView_Drop"
+                        DragEnter="ListView_DragEnter"
+                        DragLeave="ListView_DragLeave" 
+                           Text="{x:Bind Title}" Style="{StaticResource BaseTextBlockStyle}" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource GreenBackground}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="DragDropGroup">
+                <VisualState x:Name="Outside"/>
+                <VisualState x:Name="Inside">
+                    <VisualState.Setters>
+                        <Setter Target="TargetTextBox.(Control.Background).(SolidColorBrush.Color)" Value="LightGreen"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Orientation="Horizontal">
+            <ListView ItemsSource="{x:Bind ViewModel.Board.CardsList, Mode=OneWay}"                    
+                    ItemTemplate="{StaticResource CardListTemplate}" SelectionMode="None">                    
+                      <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"></StackPanel>
+                        </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+            </ListView>
+        </StackPanel>
+
+        <Button Grid.Column="1" Content="Add a list..." Background="{StaticResource ButtonBackground}" Foreground="{StaticResource ButtonForeground}"
+                Command="{x:Bind ViewModel.AddNewCardListCommand}" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" />
+    </Grid>   
+</Page>
