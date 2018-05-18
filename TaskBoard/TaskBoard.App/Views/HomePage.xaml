@@ -1,17 +1,17 @@
 ﻿<Page
-    x:Class="MyTrello.Views.HomePage"
+    x:Class="TaskBoard.App.Views.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyTrello.Views"
+    xmlns:local="using:TaskBoard.App.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:models="using:MyTrello.Models"
+    xmlns:models="using:TaskBoard.App.Models"
     xmlns:prism="using:Prism.Windows.Mvvm"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Page.Resources>
-        <DataTemplate x:Key="CardListTemplate" x:DataType="models:CardsList">
+        <DataTemplate x:Key="CardListTemplate" x:DataType="models:CardGroup">
             <StackPanel Orientation="Vertical">
                 <TextBlock Style="{StaticResource BaseTextBlockStyle}" Margin="8,0,0,0" Text="{x:Bind Title}" HorizontalAlignment="Left" />
                 <ListView ItemsSource="{x:Bind Cards}"
@@ -37,20 +37,20 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        
+
         <StackPanel Orientation="Horizontal">
-            <ListView ItemsSource="{x:Bind ViewModel.Board.CardsList, Mode=OneWay}"                    
-                    ItemTemplate="{StaticResource CardListTemplate}" SelectionMode="None">                    
-                      <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"></StackPanel>
-                        </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
+            <ListView ItemsSource="{x:Bind ViewModel.Board.CardGroups, Mode=OneWay}"                    
+                    ItemTemplate="{StaticResource CardListTemplate}" SelectionMode="None">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
             </ListView>
         </StackPanel>
 
         <Button Grid.Column="1" Content="Add a list..." Background="{StaticResource ButtonBackground}" Foreground="{StaticResource ButtonForeground}"
                 Command="{x:Bind ViewModel.AddNewCardListCommand}" 
                 HorizontalAlignment="Left" VerticalAlignment="Top" />
-    </Grid>   
+    </Grid>
 </Page>

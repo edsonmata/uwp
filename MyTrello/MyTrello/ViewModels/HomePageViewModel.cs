@@ -5,6 +5,7 @@ using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyTrello.ViewModels
 {
@@ -40,18 +41,10 @@ namespace MyTrello.ViewModels
         #region Commands
 
         public DelegateCommand AddNewCardListCommand { get; private set; }
-        public DelegateCommand DragEnterCommand { get; private set; }
-        public DelegateCommand DragLeaveCommand { get; private set; }
-        public DelegateCommand DropCommand { get; private set; }
-        public DelegateCommand DragStartingCommand { get; private set; }
 
         private void InitializeCommands()
         {
             AddNewCardListCommand = new DelegateCommand(AddNewCardList);
-            DragEnterCommand = new DelegateCommand(DragEnter);
-            DragLeaveCommand = new DelegateCommand(DragLeave);
-            DropCommand = new DelegateCommand(Drop);
-            DragStartingCommand = new DelegateCommand(DragStarting);
         }
 
         private void DragStarting()
@@ -59,9 +52,14 @@ namespace MyTrello.ViewModels
             throw new NotImplementedException();
         }
 
-        private void Drop()
+        public CardsList GetCardsListById(int id)
         {
-            throw new NotImplementedException();
+            return board.CardsList.First(item => item.ID == id);
+        }
+
+        public void MoveCardToNewCardsList(int idCard, int idCardsListSource)
+        {
+
         }
 
         private void DragLeave()

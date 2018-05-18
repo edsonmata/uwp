@@ -4,6 +4,19 @@ namespace MyTrello.Models
 {
     public class Card: BindableBase
     {
+
+        //public Card(CardsList cardsList)
+        //{
+        //   CardsList = cardsList;
+        //}
+
+        private CardsList cardsList;
+        public CardsList CardsList
+        {
+            get { return cardsList; }
+            set { SetProperty(ref cardsList, value); }
+        }
+
         private int id;
         public int ID
         {
